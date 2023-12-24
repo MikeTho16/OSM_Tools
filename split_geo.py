@@ -96,7 +96,10 @@ class QTNode():
             self.upper_right.write_leaves(out_dir, file_name + 'NE')
 
 @dataclass
-class Node():
+class OsmNodeWrapper():
+    """ Contains information about a single OSM node.  The node is stored
+    as an ElementTree.Element (from XML).
+    """
     lat: float
     lon: float
     node: ElementTree.Element
@@ -117,7 +120,7 @@ def main():
         if child.tag == 'node':
             lat = float(child.attrib['lat'])
             lon = float(child.attrib['lon'])
-            node = Node(lat, lon, child)
+            node = OsmNodeWrapper(lat, lon, child)
             quad_tree.add(node)
     quad_tree.write_leaves(args.out_dir, 'root')
 
